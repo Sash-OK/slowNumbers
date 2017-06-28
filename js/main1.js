@@ -132,10 +132,10 @@ $(document).ready(function () {
             format: false
         });
 
-        $('.num2').changeNumbers({
+        /*$('.num2').changeNumbers({
             start: endValue,
             end: startValue
-        });
+        });*/
     });
 
     $('.ch2').on('keyup', function () {
