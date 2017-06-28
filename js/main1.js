@@ -13,6 +13,8 @@
 
         $.fn.changeNumbers.timers = [];
 
+/* TODO: очистка таймеров при вызове функции */
+
         $.fn.changeNumbers.updateValue = function(timeOutTimers) {
             //var timeOutTimers = $elem.prop('timersArr');
             debugger;
