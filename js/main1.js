@@ -3,19 +3,20 @@
     $.fn.changeNumbers = function (options) {
         var time = 0,
             timeDelta = 0,
-            timerId = 0;
+            timerId = 0,
+            timeOutTimers = [];
 
         options = $.extend({
             start: 0,
             end: 0,
             format: true
         }, options);
-
+debugger;
         $.fn.changeNumbers.timers = [];
 
 /* TODO: очистка таймеров при вызове функции */
 
-        $.fn.changeNumbers.updateValue = function(timeOutTimers) {
+        $.fn.changeNumbers.updateValue = function() {
             //var timeOutTimers = $elem.prop('timersArr');
             debugger;
             //console.log(timeOutTimers);
@@ -31,7 +32,7 @@
         $.fn.changeNumbers.setValue = function(number, time, timerId, isFormat, $elem) {
             var formatted = number.toString();
 
-            $($elem).changeNumbers.timers[timerId] = setTimeout(function () {
+            timeOutTimers[timerId] = setTimeout(function () {
 
                 if (isFormat) {
                     formatted = formatted.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1 ');
@@ -140,7 +141,7 @@ $(document).ready(function () {
         });*/
     });
 
-    $('.ch2').on('keyup', function () {
+    $('.ch2').on('change', function () {
 
         var startValue = $('.num2').prop('startValue') || 0,
             endValue = 0;
