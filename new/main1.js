@@ -1,14 +1,13 @@
 (function ($) {
 
     var timerId = [],
+        initItems = 0,
         methods = {
             init: function (options) {
 
                 var settings = $.extend({
-                    width: '1000px',
-                    height: '200px',
-                    margin: '0 auto',
-                    border: '0'
+                    start: 0,
+                    end: 0
                 }, options);
 
                 return this.each(function () {
@@ -17,6 +16,9 @@
 
                     $this.css(settings);
                     $this.prop('changeNumbersValue', '0');
+                    $this.prop('changeNumbersId', initItems);
+
+                    initItems++;
                 });
             },
             stop: function () {
@@ -26,15 +28,16 @@
             },
             update: function (opt) {
 
-                return this.each(function (i) {
+                return this.each(function () {
                     var $this = $(this),
                         timeDelta = 0,
+                        tId = $this.prop('changeNumbersId'),
                         time = 0,
                         start = opt.start,
                         end = opt.end,
                         speed = 0.25;
 
-                    clearTimeout(timerId[i]);
+                    clearTimeout(timerId[tId]);
 
                     insertValue();
 
@@ -42,7 +45,7 @@
                         $this.prop('changeNumbersValue', start.toString());
                         $this.text(start);
 
-                        timerId[i] = setTimeout(function () {
+                        timerId[tId] = setTimeout(function () {
 
                             if (Math.abs(end - start) !== 0) {
                                 timeDelta = 10 / Math.abs(end - start);
@@ -58,7 +61,7 @@
 
                                 insertValue();
                             } else {
-                                clearTimeout(timerId[i]);
+                                clearTimeout(timerId[tId]);
                             }
                         }, time);
                     }
@@ -81,10 +84,13 @@
 $(function () {
 
     $('.wrap').find('.test').changeNumbers({
-        width: '200px',
-        height: '100px',
-        margin: '10px auto',
-        border: '1px solid red'
+        start: 0,
+        end: 100
+    });
+
+    $('.wrap').find('.test-1').changeNumbers({
+        start: 0,
+        end: 100
     });
 
 
@@ -92,13 +98,13 @@ $(function () {
         $(btn).on('click', function (e) {
             e.preventDefault();
 
-            var start = parseInt($(btn).parent().find('.test').prop('changeNumbersValue'));
+            var start = $(btn).parent().find('.test').prop('changeNumbersValue') || 0;
             var end = parseInt($(btn).parent().find('.inp').val());
 
             $(btn).parent().find('.test').prop('changeNumbersValue', start.toString());
 
-            $('.wrap').find('.test').changeNumbers('update', {
-                start: start,
+            $(btn).parent().find('.test').changeNumbers('update', {
+                start: parseInt(start),
                 end: end
             });
         });
