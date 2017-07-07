@@ -1,157 +1,148 @@
 (function ($) {
 
-    $.fn.changeNumbers = function (options) {
-        var time = 0,
-            timeDelta = 0,
-            timerId = 0,
-            timeOutTimers = [];
+    var methods = {
+        init: function(options) {
 
-        options = $.extend({
-            start: 0,
-            end: 0,
-            format: true
-        }, options);
-debugger;
-        $.fn.changeNumbers.timers = [];
+            var settings = $.extend({
+                width: '1000px',
+                height: '200px',
+                margin: '0 auto',
+                border: '0'
+            }, options);
+            
+            return this.each(function () {
 
-/* TODO: очистка таймеров при вызове функции */
+                var $this = $(this);
 
-        $.fn.changeNumbers.updateValue = function() {
-            //var timeOutTimers = $elem.prop('timersArr');
-            debugger;
-            //console.log(timeOutTimers);
-            if (timeOutTimers) {
-                for (var i = 0; i < timeOutTimers.length; i++) {
-                    clearTimeout(timeOutTimers[i]);
-                }
-            }
-            /*$elem.prop('timersArr', 0).length = 0;
-            console.log(timeOutTimers);*/
-        };
+                $this.css(settings);
+                $this.prop('numbers', '0');
+            });
+        },
+        insert: function(content) {
 
-        $.fn.changeNumbers.setValue = function(number, time, timerId, isFormat, $elem) {
-            var formatted = number.toString();
+            return this.each(function () {
 
-            timeOutTimers[timerId] = setTimeout(function () {
+                var $this = $(this),
+                    numbers = parseInt($this.prop('numbers'));
 
-                if (isFormat) {
-                    formatted = formatted.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1 ');
-                }
-
-                $($elem).prop('startValue', number);
-                //$($elem).prop('timersArr', timeOutTimers);
-                $($elem).text(formatted);
-
-
-            }, time);
-        };
-
-        this.each(function () {
-
-            var start = parseInt(options.start),
-                end = parseInt(options.end);
-
-            console.log($(this).changeNumbers.timers);
-
-            $(this).changeNumbers.updateValue($(this).changeNumbers.timers);
-
-            if (isNaN(start)) {
-                console.error('StartValue is NaN');
-                return false;
-            }
-
-            if (isNaN(end)) {
-                console.error('EndValue is NaN');
-                return false;
-            }
-
-            for (start; end !== start;) {
-
-                if (Math.abs(end - start) < 5e4) {
-                    timeDelta = 1000 / Math.abs(end - start);
-
-                    if (end > start) {
-                        start++;
-                    }
-                    if (end < start) {
-                        start--;
-                    }
-
-                } else if (Math.abs(end - start) >= 5e4 && Math.abs(end - start) < 5e5) {
-                    timeDelta = (1000 / Math.abs(end - start));
-
-                    if (end > start) {
-                        start += 19;
-                    }
-                    if (end < start) {
-                        start -= 19;
-                    }
-
-                } else if (Math.abs(end - start) >= 5e5 && Math.abs(end - start) < 1e6) {
-                    timeDelta = (1000 / Math.abs(end - start));
-
-                    if (end > start) {
-                        start += 99;
-                    }
-                    if (end < start) {
-                        start -= 99;
-                    }
-
-                } else if (Math.abs(end - start) > 1e6) {
-                    timeDelta = (1000 / Math.abs(end - start));
-
-                    if (end > start) {
-                        start += 599;
-                    }
-                    if (end < start) {
-                        start -= 599;
-                    }
-                }
-
-                $(this).changeNumbers.setValue(start, time, timerId, options.format, this);
-                time += (timeDelta * 0.4);
-                timerId++;
-            }
-        });
+                //inserts.push(content);
+                $this.prop('numbers', (numbers + 1).toString());
+                //console.log($this.prop('inserts'));
+                $this.text(content);
+            });
+        }
     };
+
+    $.fn.testing = function (method) {
+
+        if (methods[method]) {
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if (typeof method === 'object' || ! method) {
+            return methods.init.apply(this, arguments);
+        } else {
+            $.error('Метод с именем ' +  method + ' не существует для jQuery.tooltip');
+        }
+    }
 })(jQuery);
 
-$(document).ready(function () {
+$(function () {
 
-    $('.ch1').on('change', function () {
+    $('.wrap').find('.test').testing({
+        width: '200px',
+        height: '100px',
+        margin: '10px auto',
+        border: '1px solid red'
+    });
 
-        var startValue = $('.num1').prop('startValue') || 0,
-            endValue = 0;
+    var start = 0,
+        end = 100,
+        timeDelta = 0,
+        time = 0,
+        timerId,
+        speed = 0.2;
 
-        $('.ch1').each(function (i, input) {
-            if (input.checked) {
-                endValue += parseInt(input.value);
+    function tick() {
+        $('.wrap').find('.test').testing('insert', start);
+
+        if (end !== start) {
+            if (Math.abs(end - start) < 5e2) {
+                timeDelta = 100 / Math.abs(end - start);
+
+                if (end > start) {
+                    start += 1;
+                }
+                if (end < start) {
+                    start -= 1;
+                }
+
+                time += (timeDelta * speed);
+
+                timerId = setTimeout(tick, Math.floor(time * 100) / 100);
+
+            } else if (Math.abs(end - start) >= 5e2 && Math.abs(end - start) < 5e3) {
+                timeDelta = (100 / Math.abs(end - start));
+
+                if (end > start) {
+                    start += 19;
+                }
+                if (end < start) {
+                    start -= 19;
+                }
+
+                time += (timeDelta * speed);
+
+                timerId = setTimeout(tick, Math.floor(time * 100) / 100);
+
+            } else if (Math.abs(end - start) >= 5e3 && Math.abs(end - start) < 1e4) {
+                timeDelta = (100 / Math.abs(end - start));
+
+                if (end > start) {
+                    start += 99;
+                }
+                if (end < start) {
+                    start -= 99;
+                }
+
+                time += (timeDelta * speed);
+
+                timerId = setTimeout(tick, Math.floor(time * 100) / 100);
+
+            } else if (Math.abs(end - start) > 1e4) {
+                timeDelta = (100 / Math.abs(end - start));
+
+                if (end > start) {
+                    start += 599;
+                }
+                if (end < start) {
+                    start -= 599;
+                }
+
+                time += (timeDelta * speed);
+
+                timerId = setTimeout(tick, Math.floor(time * 100) / 100);
             }
-        });
+        } else {
+            clearTimeout(timerId);
+            debugger;
+        }
+    }
 
-        $('.num1').changeNumbers({
-            start: startValue,
-            end: endValue,
-            format: false
-        });
+    tick();
 
-        /*$('.num2').changeNumbers({
-            start: endValue,
-            end: startValue
-        });*/
+    //$('.wrap').find('.test').testing('insert', 'aaaaaaaaaaaa');
+
+    $('.wrap').find('.btn').on('click', function (e) {
+        e.preventDefault();
+        clearTimeout(timerId);
+        start = parseInt($(this).parent().find('.test').prop('numbers'));
+        end = parseInt($(this).parent().find('.inp').val());
+        time = 0;
+        $(this).parent().find('.test').prop('numbers', start.toString());
+        tick();
     });
 
-    $('.ch2').on('change', function () {
-
-        var startValue = $('.num2').prop('startValue') || 0,
-            endValue = 0;
-        endValue += parseInt(this.value);
-
-        $('.num2').changeNumbers({
-            start: startValue,
-            end: endValue
-        });
-    });
-});/**
- * Created by SSS on 04.11.2016.
- */
+    $('.wrap').find('.stop').on('click', function (e) {
+        e.preventDefault();
+        clearTimeout(timerId);
+    })
+});

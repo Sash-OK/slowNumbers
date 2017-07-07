@@ -1,138 +1,137 @@
 (function ($) {
-    var options,
-        timeOutTimers = [],
-        refresh = function (number, time, timerId,isFormat, $elem) {
-            var format = number.toString();
-            timeOutTimers[timerId] = setTimeout(function () {
 
-                if (isFormat) {
-                    format = format.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1 ');
-                }
+    var timerId = [],
+        initItems = 0,
+        methods = {
+            init: function (options) {
 
-                $elem.prop('startValue', number);
-                $elem.text(format);
+                var settings = $.extend({
+                    start: 0,
+                    end: 0
+                }, options);
 
-                return timeOutTimers;
-            }, time);
+                return this.each(function () {
+
+                    var $this = $(this);
+
+                    $this.prop('changeNumbersValue', '0');
+                    $this.prop('changeNumbersId', initItems);
+
+                    initItems++;
+                });
+            },
+            stop: function () {
+                return this.each(function () {
+
+                    var id = $(this).prop('changeNumbersId');
+
+                    clearTimeout(timerId[id]);
+                })
+            },
+            update: function (opt) {
+
+                return this.each(function () {
+                    var $this = $(this),
+                        timeDelta = 0,
+                        tId = $this.prop('changeNumbersId'),
+                        time = 0,
+                        start = parseInt(opt.start),
+                        end = parseInt(opt.end),
+                        speed = 0.25;
+
+                    clearTimeout(timerId[tId]);
+
+                    insertValue();
+
+                    function insertValue() {
+                        $this.prop('changeNumbersValue', start.toString());
+                        $this.text(start);
+
+                        timerId[tId] = setTimeout(function () {
+
+                            if (Math.abs(end - start) !== 0) {
+                                timeDelta = 10 / Math.abs(end - start);
+
+                                if (end > start) {
+                                    start += 1;
+                                }
+                                if (end < start) {
+                                    start -= 1;
+                                }
+
+                                time += (timeDelta * speed);
+
+                                insertValue();
+                            } else {
+                                clearTimeout(timerId[tId]);
+                            }
+                        }, time);
+                    }
+                });
+            }
         };
 
-    $.fn.changeNumbers = function (options) {
-        var time = 0,
-            timeDelta = 0,
-            timerId = 0,
-            speed;
+    $.fn.changeNumbers = function (method) {
 
-        options = $.extend({
-            start: 0,
-            end: 1,
-            format: true
-        }, options);
-
-        var start = parseInt(options.start),
-            end = parseInt(options.end);
-
-        if (timeOutTimers.length) {
-            for (var i = 0; i < timeOutTimers.length; i++) {
-                clearTimeout(timeOutTimers[i]);
-            }
+        if (methods[method]) {
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if (typeof method === 'object' || !method) {
+            return methods.init.apply(this, arguments);
+        } else {
+            $.error('Метод с именем ' + method + ' не существует для jQuery.tooltip');
         }
-
-        if (isNaN(start)) {
-            console.error('StartValue is NaN');
-            return false;
-        }
-
-        if (isNaN(end)) {
-            console.error('EndValue is NaN');
-            return false;
-        }
-
-        for (start; end !== start;) {
-
-            if (Math.abs(end - start) < 2e4) {
-                timeDelta = 1000 / Math.abs(end - start);
-
-                if (end > start) {
-                    start++;
-                }
-                if (end < start) {
-                    start--;
-                }
-
-            } else if (Math.abs(end - start) >= 2e4 && Math.abs(end - start) < 5e5) {
-                timeDelta = (1000 / Math.abs(end - start));
-
-                if (end > start) {
-                    start += 9;
-                }
-                if (end < start) {
-                    start -= 9;
-                }
-
-            } else if (Math.abs(end - start) >= 5e5 && Math.abs(end - start) < 1e6) {
-                timeDelta = (1000 / Math.abs(end - start));
-
-                if (end > start) {
-                    start += 49;
-                }
-                if (end < start) {
-                    start -= 49;
-                }
-
-            } else if (Math.abs(end - start) > 1e6) {
-                timeDelta = (1000 / Math.abs(end - start));
-
-                if (end > start) {
-                    start += 699;
-                }
-                if (end < start) {
-                    start -= 699;
-                }
-            }
-
-            refresh(start, time, timerId, options.format, this);
-            time += (timeDelta * 0.4);
-            timerId++;
-        }
-    };
+    }
 })(jQuery);
 
-$(document).ready(function () {
+$(function () {
 
-    $('.ch1').on('change', function (e) {
-        //e.preventDefault();
+    $('.wrap').find('.test').changeNumbers({
+        start: 0,
+        end: 100
+    });
 
-        var startValue = $('.num1').prop('startValue') || 0,
-            endValue = 0;
+    $('.wrap').find('.test-1').changeNumbers({
+        start: 0,
+        end: 100
+    });
 
-        $('.ch1').each(function (i, input) {
-            if (input.checked) {
-                endValue += parseInt(input.value);
-            }
-        });
 
-        $('.num1').changeNumbers({
-            start: startValue,
-            end: endValue,
-            format: false
-        });
+    $('.wrap').find('.btn').each(function (i, btn) {
+        $(btn).on('click', function (e) {
+            e.preventDefault();
 
-        $('.num2').changeNumbers({
-            start: endValue,
-            end: startValue
+            var start = $(btn).parent().find('.test').prop('changeNumbersValue') || 0;
+            var end = $(btn).parent().find('.inp').val();
+
+            //$(btn).parent().find('.test').prop('changeNumbersValue', start.toString());
+
+            $(btn).parent().find('.test').changeNumbers('update', {
+                start: start,
+                end: end
+            });
         });
     });
 
-    $('.ch2').on('keyup', function (e) {
-        //e.preventDefault();
+    $('.wrap').find('.stop').each(function (i, btn) {
+        $(btn).on('click', function (e) {
+            e.preventDefault();
+            $(btn).parent().find('.test').changeNumbers('stop');
+        })
+    });
 
-        var startValue = $('.num2').prop('startValue') || 0,
-            endValue = 0;
-        endValue += parseInt(this.value);
+    $('.wrap').find('.btn-1').on('click', function () {
 
-        $('.num2').changeNumbers({
-            start: startValue,
-            end: endValue
-        });
+        var start = $('.test-1').prop('changeNumbersValue') || 0;
+        var end = $('.inp-1').val();
+
+        $('.test-1').changeNumbers('update', {
+            start: start,
+            end: end
+        })
+    });
+
+    $('.stop-1').on('click', function (e) {
+        e.preventDefault();
+        $('.test-1').changeNumbers('stop');
     });
 });
