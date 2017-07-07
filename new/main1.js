@@ -14,7 +14,6 @@
 
                     var $this = $(this);
 
-                    $this.css(settings);
                     $this.prop('changeNumbersValue', '0');
                     $this.prop('changeNumbersId', initItems);
 
@@ -22,8 +21,11 @@
                 });
             },
             stop: function () {
-                return this.each(function (i) {
-                    clearTimeout(timerId[i]);
+                return this.each(function () {
+
+                    var id = $(this).prop('changeNumbersId');
+
+                    clearTimeout(timerId[id]);
                 })
             },
             update: function (opt) {
@@ -33,8 +35,8 @@
                         timeDelta = 0,
                         tId = $this.prop('changeNumbersId'),
                         time = 0,
-                        start = opt.start,
-                        end = opt.end,
+                        start = parseInt(opt.start),
+                        end = parseInt(opt.end),
                         speed = 0.25;
 
                     clearTimeout(timerId[tId]);
@@ -99,12 +101,12 @@ $(function () {
             e.preventDefault();
 
             var start = $(btn).parent().find('.test').prop('changeNumbersValue') || 0;
-            var end = parseInt($(btn).parent().find('.inp').val());
+            var end = $(btn).parent().find('.inp').val();
 
-            $(btn).parent().find('.test').prop('changeNumbersValue', start.toString());
+            //$(btn).parent().find('.test').prop('changeNumbersValue', start.toString());
 
             $(btn).parent().find('.test').changeNumbers('update', {
-                start: parseInt(start),
+                start: start,
                 end: end
             });
         });
@@ -113,7 +115,23 @@ $(function () {
     $('.wrap').find('.stop').each(function (i, btn) {
         $(btn).on('click', function (e) {
             e.preventDefault();
-            $('.wrap').find('.test').changeNumbers('stop');
+            $(btn).parent().find('.test').changeNumbers('stop');
         })
+    });
+
+    $('.wrap').find('.btn-1').on('click', function () {
+
+        var start = $('.test-1').prop('changeNumbersValue') || 0;
+        var end = $('.inp-1').val();
+
+        $('.test-1').changeNumbers('update', {
+            start: start,
+            end: end
+        })
+    });
+
+    $('.stop-1').on('click', function (e) {
+        e.preventDefault();
+        $('.test-1').changeNumbers('stop');
     });
 });
