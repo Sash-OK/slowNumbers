@@ -14,7 +14,8 @@
 
                     var $this = $(this);
 
-                    $this.prop('changeNumbersValue', '0');
+                    $this.prop('changeNumbersValue', settings.start);
+                    $this.text(settings.start);
                     $this.prop('changeNumbersId', initItems);
 
                     initItems++;
@@ -37,7 +38,7 @@
                         time = 0,
                         start = parseInt(opt.start),
                         end = parseInt(opt.end),
-                        speed = 0.25;
+                        speed = 0.1;
 
                     clearTimeout(timerId[tId]);
 
@@ -48,18 +49,46 @@
                         $this.text(start);
 
                         timerId[tId] = setTimeout(function () {
+                            var diff = Math.abs(end - start),
+                                diffLength = diff.toString().length,
+                                step = 0;
 
-                            if (Math.abs(end - start) !== 0) {
-                                timeDelta = 10 / Math.abs(end - start);
+                            if (diff !== 0) {
+                                timeDelta = Math.floor((1000 / diff) - time);
+
+                                switch (diffLength) {
+                                    case 1:
+                                    case 2:
+                                        step = 1;
+                                        break;
+                                    case 3:
+                                        step = 9;
+                                        break;
+                                    case 4:
+                                        step = 49;
+                                        break;
+                                    case 5:
+                                        step = 999;
+                                        break;
+                                    case 6:
+                                        step = 4999;
+                                        break;
+                                    case 7:
+                                        step = 99999;
+                                        break;
+                                    case 8:
+                                        step = 999999;
+                                        break;
+                                    default: step = 9999999;
+                                }
 
                                 if (end > start) {
-                                    start += 1;
-                                }
-                                if (end < start) {
-                                    start -= 1;
+                                    start += step;
+                                } else {
+                                    start -= step;
                                 }
 
-                                time += (timeDelta * speed);
+                                time += Math.floor(timeDelta * speed);
 
                                 insertValue();
                             } else {
@@ -95,6 +124,10 @@ $(function () {
         end: 100
     });
 
+    $('.test-e').changeNumbers({
+        start: 100
+    });
+
 
     $('.wrap').find('.btn').each(function (i, btn) {
         $(btn).on('click', function (e) {
@@ -110,6 +143,15 @@ $(function () {
                 end: end
             });
         });
+    });
+
+    $('.inp-e').on('keyup', function () {
+        var start = $('.test-e').prop('changeNumbersValue') || 0;
+        var end = $(this).val();
+        $('.test-e').changeNumbers('update', {
+            start: start,
+            end: end
+        })
     });
 
     $('.wrap').find('.stop').each(function (i, btn) {
