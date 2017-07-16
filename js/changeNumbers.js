@@ -45,7 +45,7 @@
                         time = 0,
                         start = parseInt(opt.start),
                         end = parseInt(opt.end),
-                        speed = 0.1,
+                        speed = opt.speed || 0.1,
                         isFormat = opt.format || false;
 
                     clearTimeout(timerId[tId]);
