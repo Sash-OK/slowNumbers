@@ -7,15 +7,22 @@
 
                 var settings = $.extend({
                     start: 0,
-                    end: 0
+                    end: 0,
+                    format: false
                 }, options);
 
                 return this.each(function () {
 
-                    var $this = $(this);
+                    var $this = $(this),
+                        isFormat = settings.format,
+                        numValue = settings.start.toString();
+
+                    if (isFormat) {
+                        numValue = numValue.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1 ');
+                    }
 
                     $this.prop('changeNumbersValue', settings.start);
-                    $this.text(settings.start);
+                    $this.text(numValue);
                     $this.prop('changeNumbersId', initItems);
 
                     initItems++;
@@ -38,15 +45,22 @@
                         time = 0,
                         start = parseInt(opt.start),
                         end = parseInt(opt.end),
-                        speed = 0.1;
+                        speed = 0.1,
+                        isFormat = opt.format || false;
 
                     clearTimeout(timerId[tId]);
 
                     insertValue();
 
                     function insertValue() {
+                        var numValue = start.toString();
+
+                        if (isFormat) {
+                            numValue = numValue.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1 ');
+                        }
+
                         $this.prop('changeNumbersValue', start.toString());
-                        $this.text(start);
+                        $this.text(numValue);
 
                         timerId[tId] = setTimeout(function () {
                             var diff = Math.abs(end - start),
@@ -62,24 +76,27 @@
                                         step = 1;
                                         break;
                                     case 3:
-                                        step = 9;
+                                        step = 11;
                                         break;
                                     case 4:
-                                        step = 49;
+                                        step = 111;
                                         break;
                                     case 5:
-                                        step = 999;
+                                        step = 1111;
                                         break;
                                     case 6:
-                                        step = 4999;
+                                        step = 11111;
                                         break;
                                     case 7:
-                                        step = 99999;
+                                        step = 111111;
                                         break;
                                     case 8:
-                                        step = 999999;
+                                        step = 1111111;
                                         break;
-                                    default: step = 9999999;
+                                    case 9:
+                                        step = 11111111;
+                                        break;
+                                    default: step = 111111111;
                                 }
 
                                 if (end > start) {
@@ -111,69 +128,3 @@
         }
     }
 })(jQuery);
-
-$(function () {
-
-    $('.wrap').find('.test').changeNumbers({
-        start: 0,
-        end: 100
-    });
-
-    $('.wrap').find('.test-1').changeNumbers({
-        start: 0,
-        end: 100
-    });
-
-    $('.test-e').changeNumbers({
-        start: 100
-    });
-
-
-    $('.wrap').find('.btn').each(function (i, btn) {
-        $(btn).on('click', function (e) {
-            e.preventDefault();
-
-            var start = $(btn).parent().find('.test').prop('changeNumbersValue') || 0;
-            var end = $(btn).parent().find('.inp').val();
-
-            //$(btn).parent().find('.test').prop('changeNumbersValue', start.toString());
-
-            $(btn).parent().find('.test').changeNumbers('update', {
-                start: start,
-                end: end
-            });
-        });
-    });
-
-    $('.inp-e').on('keyup', function () {
-        var start = $('.test-e').prop('changeNumbersValue') || 0;
-        var end = $(this).val();
-        $('.test-e').changeNumbers('update', {
-            start: start,
-            end: end
-        })
-    });
-
-    $('.wrap').find('.stop').each(function (i, btn) {
-        $(btn).on('click', function (e) {
-            e.preventDefault();
-            $(btn).parent().find('.test').changeNumbers('stop');
-        })
-    });
-
-    $('.wrap').find('.btn-1').on('click', function () {
-
-        var start = $('.test-1').prop('changeNumbersValue') || 0;
-        var end = $('.inp-1').val();
-
-        $('.test-1').changeNumbers('update', {
-            start: start,
-            end: end
-        })
-    });
-
-    $('.stop-1').on('click', function (e) {
-        e.preventDefault();
-        $('.test-1').changeNumbers('stop');
-    });
-});
