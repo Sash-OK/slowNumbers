@@ -21,9 +21,9 @@
                         numValue = numValue.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1 ');
                     }
 
-                    $this.prop('changeNumbersValue', settings.start);
+                    $this.prop('slowNumbersValue', settings.start);
                     $this.text(numValue);
-                    $this.prop('changeNumbersId', initItems);
+                    $this.prop('slowNumbersId', initItems);
 
                     initItems++;
                 });
@@ -31,7 +31,7 @@
             stop: function () {
                 return this.each(function () {
 
-                    var id = $(this).prop('changeNumbersId');
+                    var id = $(this).prop('slowNumbersId');
 
                     clearTimeout(timerId[id]);
                 })
@@ -41,7 +41,7 @@
                 return this.each(function () {
                     var $this = $(this),
                         timeDelta = 0,
-                        tId = $this.prop('changeNumbersId'),
+                        tId = $this.prop('slowNumbersId'),
                         time = 0,
                         start = parseInt(opt.start),
                         end = parseInt(opt.end),
@@ -59,7 +59,7 @@
                             numValue = numValue.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1 ');
                         }
 
-                        $this.prop('changeNumbersValue', start.toString());
+                        $this.prop('slowNumbersValue', start.toString());
                         $this.text(numValue);
 
                         timerId[tId] = setTimeout(function () {
@@ -117,7 +117,7 @@
             }
         };
 
-    $.fn.changeNumbers = function (method) {
+    $.fn.slowNumbers = function (method) {
 
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));

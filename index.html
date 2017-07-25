@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible"
           content="ie=edge">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="js/changeNumbers.js"></script>
+    <script src="js/slowNumbers.js"></script>
     <title>Document</title>
     <style>
         .test, .test-1 {
@@ -46,17 +46,17 @@
     <script>
         $(function () {
 
-            $('.wrap').find('.test').changeNumbers({
+            $('.wrap').find('.test').slowNumbers({
                 start: 0,
                 end: 100
             });
 
-            $('.wrap').find('.test-1').changeNumbers({
+            $('.wrap').find('.test-1').slowNumbers({
                 start: 1330,
                 format: true
             });
 
-            $('.test-e').changeNumbers({
+            $('.test-e').slowNumbers({
                 start: 100
             });
 
@@ -65,12 +65,12 @@
                 $(btn).on('click', function (e) {
                     e.preventDefault();
 
-                    var start = $(btn).parent().find('.test').prop('changeNumbersValue') || 0;
+                    var start = $(btn).parent().find('.test').prop('slowNumbersValue') || 0;
                     var end = $(btn).parent().find('.inp').val();
 
-                    //$(btn).parent().find('.test').prop('changeNumbersValue', start.toString());
+                    //$(btn).parent().find('.test').prop('slowNumbersValue', start.toString());
 
-                    $(btn).parent().find('.test').changeNumbers('update', {
+                    $(btn).parent().find('.test').slowNumbers('update', {
                         start: start,
                         end: end
                     });
@@ -78,9 +78,9 @@
             });
 
             $('.inp-e').on('keyup', function () {
-                var start = $('.test-e').prop('changeNumbersValue') || 0;
+                var start = $('.test-e').prop('slowNumbersValue') || 0;
                 var end = $(this).val();
-                $('.test-e').changeNumbers('update', {
+                $('.test-e').slowNumbers('update', {
                     start: start,
                     end: end,
                     format: true
@@ -90,16 +90,16 @@
             $('.wrap').find('.stop').each(function (i, btn) {
                 $(btn).on('click', function (e) {
                     e.preventDefault();
-                    $(btn).parent().find('.test').changeNumbers('stop');
+                    $(btn).parent().find('.test').slowNumbers('stop');
                 })
             });
 
             $('.wrap').find('.btn-1').on('click', function () {
 
-                var start = $('.test-1').prop('changeNumbersValue') || 0;
+                var start = $('.test-1').prop('slowNumbersValue') || 0;
                 var end = $('.inp-1').val();
 
-                $('.test-1').changeNumbers('update', {
+                $('.test-1').slowNumbers('update', {
                     start: start,
                     end: end,
                     format: true
@@ -108,7 +108,7 @@
 
             $('.stop-1').on('click', function (e) {
                 e.preventDefault();
-                $('.test-1').changeNumbers('stop');
+                $('.test-1').slowNumbers('stop');
             });
         });
     </script>
