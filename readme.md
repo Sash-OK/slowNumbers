@@ -9,18 +9,20 @@
 <script src="js/slowNumbers.js"></script>
 ```
 
-## Начальная инициализация, чтобы отсчет пошел с указанного числа, а не с 0
+## Начальная инициализация
+Необходима для того, чтобы отсчет пошел с указанного числа при загрузке страницы, а не с 0
 ```javascript
 $(document).ready(function(){
   $('.test').slowNumbers({
-    start: 1330,
-    format: true
+    start: 1000
   });
 });
 ```
 
-### Опции
+### Обновление числа
 
 ```javascript
-
+$('.test').slowNumbers('update', {
+    end: 5000
+});
 ```

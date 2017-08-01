@@ -94,7 +94,6 @@
                 var start = $('.test-e').prop('slowNumbersValue') || 0;
                 var end = $(this).val();
                 $('.test-e').slowNumbers('update', {
-                    start: start,
                     end: end,
                     format: true
                 })
@@ -113,7 +112,7 @@
                 var end = $('.inp-1').val();
 
                 $('.test-1').slowNumbers('update', {
-                    start: start,
+                    start: 300,
                     end: end,
                     format: true
                 })

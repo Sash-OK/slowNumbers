@@ -43,7 +43,7 @@
                         timeDelta = 0,
                         tId = $this.prop('slowNumbersId'),
                         time = 0,
-                        start = parseInt(opt.start),
+                        start = parseInt(opt.start) || $this.prop('slowNumbersValue') || 0,
                         end = parseInt(opt.end),
                         speed = opt.speed || 0.1,
                         isFormat = opt.format || false;
