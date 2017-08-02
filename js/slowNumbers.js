@@ -45,7 +45,7 @@
                         time = 0,
                         start = parseInt(opt.start) || parseInt($this.prop('slowNumbersValue')) || 0,
                         end = parseInt(opt.end),
-                        slowSpeed = parseInt(opt.slowSpeed) / 100 || 0.1,
+                        slowSpeed = parseFloat(opt.slowSpeed) / 100 || 0.1,
                         isFormat = opt.format || false;
 
                     clearTimeout(timers[tId]);
