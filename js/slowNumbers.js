@@ -1,6 +1,6 @@
 (function ($) {
 
-    var timerId = [],
+    var timers = [],
         initItems = 0,
         methods = {
             init: function (options) {
@@ -33,7 +33,7 @@
 
                     var id = $(this).prop('slowNumbersId');
 
-                    clearTimeout(timerId[id]);
+                    clearTimeout(timers[id]);
                 })
             },
             update: function (opt) {
@@ -43,14 +43,18 @@
                         timeDelta = 0,
                         tId = $this.prop('slowNumbersId'),
                         time = 0,
-                        start = parseInt(opt.start) || $this.prop('slowNumbersValue') || 0,
+                        start = parseInt(opt.start) || parseInt($this.prop('slowNumbersValue')) || 0,
                         end = parseInt(opt.end),
-                        speed = opt.speed || 0.1,
+                        slowSpeed = parseInt(opt.slowSpeed) / 100 || 0.1,
                         isFormat = opt.format || false;
 
-                    clearTimeout(timerId[tId]);
+                    clearTimeout(timers[tId]);
 
-                    insertValue();
+                    if (isNaN(end)) {
+                        console.error('Конечное число не может быть равно - NaN!');
+                    } else {
+                        insertValue();
+                    }
 
                     function insertValue() {
                         var numValue = start.toString();
@@ -62,7 +66,7 @@
                         $this.prop('slowNumbersValue', start.toString());
                         $this.text(numValue);
 
-                        timerId[tId] = setTimeout(function () {
+                        timers[tId] = setTimeout(function () {
                             var diff = Math.abs(end - start),
                                 diffLength = diff.toString().length,
                                 step = 0;
@@ -105,11 +109,11 @@
                                     start -= step;
                                 }
 
-                                time += Math.floor(timeDelta * speed);
+                                time += Math.floor(timeDelta * slowSpeed);
 
                                 insertValue();
                             } else {
-                                clearTimeout(timerId[tId]);
+                                clearTimeout(timers[tId]);
                             }
                         }, time);
                     }
