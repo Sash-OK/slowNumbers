@@ -13,7 +13,7 @@
 Необходима для того, чтобы отсчет пошел с указанного числа при загрузке страницы, а не с 0
 ```javascript
 $(document).ready(function(){
-  $('.test').slowNumbers({
+  $(selector).slowNumbers({
     start: 1000
   });
 });
@@ -22,7 +22,7 @@ $(document).ready(function(){
 ### Обновление числа
 
 ```javascript
-$('.test').slowNumbers('update', {
+$(selector).slowNumbers('update', {
     end: 5000
 });
 ```
@@ -30,8 +30,16 @@ $('.test').slowNumbers('update', {
 ### Необязательные параметры
 
 ```javascript
-$('.test').slowNumbers('update', {
+$(selector).slowNumbers('update', {
     format: true, // Разделение числа 10000000 => 10 000 000
     slowSpeed: 5 // Скорость земедления, чем выше тем медленнее
 });
+```
+
+### Методы
+
+Остановка анимации
+
+```javascript
+$(selector).slowNumbers('stop');
 ```
