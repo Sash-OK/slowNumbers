@@ -2,6 +2,10 @@
  
  [Demo page](https://sash-ok.github.io/slowNumbers/)
 
+```bash
+npm install slow-numbers
+```
+
 ## Подключение
 
 ```html
