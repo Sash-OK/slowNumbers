@@ -9,6 +9,7 @@ npm install slow-numbers
 ## Подключение
 
 ```html
+<!-- Требуется библиотека JQuery 1.12.4 и выше -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="js/slowNumbers.js"></script>
 ```
