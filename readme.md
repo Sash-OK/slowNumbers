@@ -41,9 +41,7 @@ $(selector).slowNumbers('update', {
 });
 ```
 
-### Методы
-
-Остановка анимации
+### Остановка анимации
 
 ```javascript
 $(selector).slowNumbers('stop');
