@@ -10,8 +10,9 @@ npm install slow-numbers
 ## Init on element
 ```javascript
 $(document).ready(function(){
+var $element = document.querySelector('.my-css-selector');
   var numbers = new SlowNumbers(
-        'CSS Selector',
+        $element,
         startNumber,
         options
 )

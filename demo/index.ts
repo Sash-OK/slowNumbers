@@ -10,15 +10,15 @@ window.onload = function () {
 	const stopExample1: HTMLElement = document.querySelector('.js-stop-1');
 	const stopExample2: HTMLElement = document.querySelector('.js-stop-2');
 	const startBtn1: HTMLElement = document.querySelector('.js-start-1');
-	const example1 = new SlowNumbers('.js-result-1', 5500, {
+	const example1 = new SlowNumbers(document.querySelector('.js-result-1'), 5500, {
 		format: true,
 		speed: Number(speedSelect1.value),
 	});
-	const example2 = new SlowNumbers('.js-result-2', 0, {
+	const example2 = new SlowNumbers(document.querySelector('.js-result-2'), 0, {
 		format: true,
 		speed: Number(speedSelect2.value),
 	});
-	const example3 = new SlowNumbers('.js-result-3', 5500, {
+	const example3 = new SlowNumbers(document.querySelector('.js-result-3'), 5500, {
 		format: true,
 		speed: Number(speedSelect3.value),
 	});

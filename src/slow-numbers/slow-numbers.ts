@@ -8,16 +8,14 @@ function format(value: number) {
 }
 
 export class SlowNumbers {
-	private readonly $element: HTMLElement;
 	private timer: number;
 	private stopped: boolean;
 	
 	constructor(
-		public selector: string,
+		public $element: HTMLElement,
 		public currentValue: number = 0,
 		public options: Partial<SlowNumbersOptions> = {}
 	) {
-		this.$element = document.querySelector(selector);
 		this.updateElementValue();
 	}
 	

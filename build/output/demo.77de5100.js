@@ -148,7 +148,7 @@ function format(value) {
 var SlowNumbers =
 /** @class */
 function () {
-  function SlowNumbers(selector, currentValue, options) {
+  function SlowNumbers($element, currentValue, options) {
     if (currentValue === void 0) {
       currentValue = 0;
     }
@@ -157,10 +157,9 @@ function () {
       options = {};
     }
 
-    this.selector = selector;
+    this.$element = $element;
     this.currentValue = currentValue;
     this.options = options;
-    this.$element = document.querySelector(selector);
     this.updateElementValue();
   }
 
@@ -304,15 +303,15 @@ window.onload = function () {
   var stopExample1 = document.querySelector('.js-stop-1');
   var stopExample2 = document.querySelector('.js-stop-2');
   var startBtn1 = document.querySelector('.js-start-1');
-  var example1 = new slow_numbers_1.SlowNumbers('.js-result-1', 5500, {
+  var example1 = new slow_numbers_1.SlowNumbers(document.querySelector('.js-result-1'), 5500, {
     format: true,
     speed: Number(speedSelect1.value)
   });
-  var example2 = new slow_numbers_1.SlowNumbers('.js-result-2', 0, {
+  var example2 = new slow_numbers_1.SlowNumbers(document.querySelector('.js-result-2'), 0, {
     format: true,
     speed: Number(speedSelect2.value)
   });
-  var example3 = new slow_numbers_1.SlowNumbers('.js-result-3', 5500, {
+  var example3 = new slow_numbers_1.SlowNumbers(document.querySelector('.js-result-3'), 5500, {
     format: true,
     speed: Number(speedSelect3.value)
   });
