@@ -6,43 +6,47 @@
 npm install slow-numbers
 ```
 
-## Подключение
 
-```html
-<!-- Требуется библиотека JQuery 1.12.4 и выше -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="js/slowNumbers.js"></script>
-```
-
-## Начальная инициализация
-Необходима для того, чтобы отсчет пошел с указанного числа при загрузке страницы, а не с 0
+## Init on element
 ```javascript
 $(document).ready(function(){
-  $(selector).slowNumbers({
-    start: 1000
-  });
+  var numbers = new SlowNumbers(
+        'CSS Selector',
+        startNumber,
+        options
+)
 });
 ```
 
-### Обновление числа
+### Update
 
 ```javascript
-$(selector).slowNumbers('update', {
-    end: 5000
-});
+numbers.changeTo(value, options);
 ```
 
-### Необязательные параметры
+### Add
 
 ```javascript
-$(selector).slowNumbers('update', {
-    format: true, // Разделение числа 10000000 => 10 000 000
-    slowSpeed: 5 // Скорость земедления, чем выше тем медленнее
-});
+numbers.add(value, options);
+```
+
+### Subtract
+
+```javascript
+numbers.subtract(value, options);
+```
+
+### Options
+
+```javascript
+var options = {
+	speed: number,
+	format: boolean, // if true 1000000000 will be shown as 1000 000 000
+}
 ```
 
 ### Остановка анимации
 
 ```javascript
-$(selector).slowNumbers('stop');
+numbers.stopChange();
 ```
