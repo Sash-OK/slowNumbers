@@ -1,5 +1,5 @@
 export interface SlowNumbersOptions {
-	slowSpeed: number;
+	speed: number;
 	format: boolean;
 }
 
@@ -47,7 +47,7 @@ export class SlowNumbers {
 		
 		let timeDelta = 0;
 		let timeOut = 0;
-		const slowSpeed = this.options.slowSpeed / 100 || 0.1;
+		const slowSpeed = this.options.speed / 100 || 0.1;
 		
 		const insertValue = () => {
 			this.updateElementValue();

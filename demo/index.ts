@@ -12,26 +12,26 @@ window.onload = function () {
 	const startBtn1: HTMLElement = document.querySelector('.js-start-1');
 	const example1 = new SlowNumbers('.js-result-1', 5500, {
 		format: true,
-		slowSpeed: Number(speedSelect1.value),
+		speed: Number(speedSelect1.value),
 	});
 	const example2 = new SlowNumbers('.js-result-2', 0, {
 		format: true,
-		slowSpeed: Number(speedSelect2.value),
+		speed: Number(speedSelect2.value),
 	});
 	const example3 = new SlowNumbers('.js-result-3', 5500, {
 		format: true,
-		slowSpeed: Number(speedSelect3.value),
+		speed: Number(speedSelect3.value),
 	});
 	
 	exampleInput1.onchange = (event) => {
 		example1.changeTo(Number((event.target as HTMLInputElement).value), {
-			slowSpeed: Number(speedSelect1.value),
+			speed: Number(speedSelect1.value),
 		});
 	};
 	
 	exampleInput2.onkeyup = (event) => {
 		example2.changeTo(Number((event.target as HTMLInputElement).value), {
-			slowSpeed: Number(speedSelect2.value),
+			speed: Number(speedSelect2.value),
 		});
 	};
 	
@@ -39,11 +39,11 @@ window.onload = function () {
 		console.log((event.target as HTMLInputElement).value, (event.target as HTMLInputElement).checked);
 		if ((event.target as HTMLInputElement).checked) {
 			example3.add(Number((event.target as HTMLInputElement).value), {
-				slowSpeed: Number(speedSelect3.value),
+				speed: Number(speedSelect3.value),
 			});
 		} else {
 			example3.subtract(Number((event.target as HTMLInputElement).value), {
-				slowSpeed: Number(speedSelect3.value),
+				speed: Number(speedSelect3.value),
 			});
 		}
 	};
@@ -58,7 +58,7 @@ window.onload = function () {
 	
 	startBtn1.onclick = () => {
 		example1.changeTo(Number(exampleInput1.value), {
-			slowSpeed: Number(speedSelect1.value),
+			speed: Number(speedSelect1.value),
 		});
 	};
 }

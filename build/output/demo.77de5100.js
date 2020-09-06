@@ -203,7 +203,7 @@ function () {
     clearTimeout(this.timer);
     var timeDelta = 0;
     var timeOut = 0;
-    var slowSpeed = this.options.slowSpeed / 100 || 0.1;
+    var slowSpeed = this.options.speed / 100 || 0.1;
 
     var insertValue = function insertValue() {
       _this.updateElementValue();
@@ -306,26 +306,26 @@ window.onload = function () {
   var startBtn1 = document.querySelector('.js-start-1');
   var example1 = new slow_numbers_1.SlowNumbers('.js-result-1', 5500, {
     format: true,
-    slowSpeed: Number(speedSelect1.value)
+    speed: Number(speedSelect1.value)
   });
   var example2 = new slow_numbers_1.SlowNumbers('.js-result-2', 0, {
     format: true,
-    slowSpeed: Number(speedSelect2.value)
+    speed: Number(speedSelect2.value)
   });
   var example3 = new slow_numbers_1.SlowNumbers('.js-result-3', 5500, {
     format: true,
-    slowSpeed: Number(speedSelect3.value)
+    speed: Number(speedSelect3.value)
   });
 
   exampleInput1.onchange = function (event) {
     example1.changeTo(Number(event.target.value), {
-      slowSpeed: Number(speedSelect1.value)
+      speed: Number(speedSelect1.value)
     });
   };
 
   exampleInput2.onkeyup = function (event) {
     example2.changeTo(Number(event.target.value), {
-      slowSpeed: Number(speedSelect2.value)
+      speed: Number(speedSelect2.value)
     });
   };
 
@@ -334,11 +334,11 @@ window.onload = function () {
 
     if (event.target.checked) {
       example3.add(Number(event.target.value), {
-        slowSpeed: Number(speedSelect3.value)
+        speed: Number(speedSelect3.value)
       });
     } else {
       example3.subtract(Number(event.target.value), {
-        slowSpeed: Number(speedSelect3.value)
+        speed: Number(speedSelect3.value)
       });
     }
   };
@@ -353,7 +353,7 @@ window.onload = function () {
 
   startBtn1.onclick = function () {
     example1.changeTo(Number(exampleInput1.value), {
-      slowSpeed: Number(speedSelect1.value)
+      speed: Number(speedSelect1.value)
     });
   };
 };
