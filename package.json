@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "develop": "parcel index.html",
+    "develop": "parcel demo/index.html --out-dir build/output --cache-dir build/cache",
     "build": "tsc"
   },
   "repository": {
@@ -20,5 +20,8 @@
     "url": "https://github.com/Sash-OK/slowNumbers/issues"
   },
   "homepage": "https://github.com/Sash-OK/slowNumbers#readme",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.0.2"
+  }
 }

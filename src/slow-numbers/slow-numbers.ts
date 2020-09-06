@@ -1,5 +1,5 @@
 export interface SlowNumbersOptions {
-	slowSpeed: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+	slowSpeed: number;
 	format: boolean;
 }
 
@@ -26,9 +26,21 @@ export class SlowNumbers {
 	}
 	
 	public changeTo(endValue: number, options: Partial<SlowNumbersOptions> = {}) {
+		this.startChanging(endValue, options);
+	}
+	
+	public add(value: number, options: Partial<SlowNumbersOptions> = {}) {
+		this.startChanging(this.currentValue + value, options);
+	}
+	
+	public subtract(value: number, options: Partial<SlowNumbersOptions> = {}) {
+		this.startChanging(this.currentValue - value, options);
+	}
+	
+	private startChanging(endValue, options: Partial<SlowNumbersOptions> = {}) {
 		this.options = {
 			...this.options,
-			...options,
+			...options
 		};
 		
 		clearTimeout(this.timer);
@@ -81,7 +93,8 @@ export class SlowNumbers {
 						case 9:
 							step = 11111111;
 							break;
-						default: step = 111111111;
+						default:
+							step = 111111111;
 					}
 					
 					if (endValue > this.currentValue) {
